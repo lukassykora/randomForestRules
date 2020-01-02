@@ -15,7 +15,7 @@ https://github.com/lukassykora/randomForestRules
 
 ## Example
 ```python
-from randomForest import RandomForest
+from randomForestRules import RandomForest
 import pandas as pd
 
 df = pd.read_csv("data/audiology.csv")
