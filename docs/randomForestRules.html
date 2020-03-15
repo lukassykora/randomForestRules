@@ -1,0 +1,1017 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.7.5" />
+<title>randomForestRules.randomForestRules API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>randomForestRules.randomForestRules</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import pandas as pd
+from sklearn.ensemble import RandomForestRegressor
+from typing import List
+
+
+class RandomForestRules:
+    &#34;&#34;&#34;
+    Generate random forest and extract classification rules from trees.
+
+    - Underscore is not allowed in column names.
+    - Target must be numerical and binary.
+    ...
+
+    Attributes
+    ----------
+    data : pd.DataFrame
+        Raw input data.
+    data_dummies : pd.DataFrame
+        Categorical variables converted into dummy/indicator variables.
+    antecedents : List[str]
+        List of antecedent columns names.
+    consequent : str
+        Consequent column name.
+    possible_values_dict : dict
+        Dictionary of possible categories per each column,
+    rules_frame : pd.DataFrame
+        Discovered classification rules
+
+    Methods
+    -------
+    read_csv(self, file: str, **kwargs)
+        Import data from a CSV file.
+    load_pandas(self, data_frame: pd.DataFrame)
+        Import data from Pandas data frame.
+    fit(self, antecedents: List[str], consequent: str, supp: float, conf: float, n_estimators: int=30, **kwargs)
+        Train the model.
+    get_frame(self)
+        Get classification rules data frame.
+    &#34;&#34;&#34;
+
+    def __init__(self):
+        &#34;&#34;&#34;
+        Initialise.
+        &#34;&#34;&#34;
+        self.data = pd.DataFrame()
+        self.data_dummies = pd.DataFrame()
+        self.antecedents = []
+        self.consequent = &#34;&#34;
+        self.possible_values_dict = {}
+        self.rules_frame = pd.DataFrame()
+
+    def read_csv(self, file: str, **kwargs):
+        &#34;&#34;&#34;Imports data from a CSV file.
+
+        It uses the same optional parameters as read_csv from Pandas.
+
+        Parameters
+        ----------
+        file : str
+            A path to a file.
+        **kwargs :
+            Arbitrary keyword arguments (the same as in Pandas).
+        &#34;&#34;&#34;
+        self.data = pd.read_csv(file, **kwargs)
+
+    def load_pandas(self, data_frame: pd.DataFrame):
+        &#34;&#34;&#34;Loads a data frame.
+
+        It must be the Pandas data frame.
+
+        Parameters
+        ----------
+        data_frame : pd.DataFrame
+            Pandas data frame.
+        &#34;&#34;&#34;
+        self.data = data_frame
+
+    def _prepare_data(self, antecedents: List[str], consequent: str):
+        &#34;&#34;&#34;Data preparation
+
+        Columns are reduced just to antecedent and consequent.
+        Missing values are replaced with string &#39;nan&#39;.
+        Possible values for each column are saved to possible_values_dict.
+
+        Parameters
+        ----------
+        antecedents : List[str]
+            List of antecedent columns names.
+        consequent : str
+            Name of consequent column.
+        &#34;&#34;&#34;
+        reduced = antecedents + [consequent]
+        self.data = self.data[reduced]
+        self.data = self.data.fillna(&#34;nan&#34;)
+        self.antecedents = antecedents
+        self.consequent = consequent
+        for col in self.antecedents:
+            self.possible_values_dict[col] = self.data[col].unique().tolist()
+
+    def _set_dummies(self):
+        &#34;&#34;&#34;Get dummies and save them to new data frame.
+        &#34;&#34;&#34;
+        data_reduced = self.data[self.antecedents]
+        self.data_dummies = pd.get_dummies(data_reduced, columns=self.antecedents)
+
+    def _get_random_forest(self, n_estimators: int=30, **kwargs):
+        &#34;&#34;&#34;Get random forest by Scikit-Learn RandomForestRegressor.
+
+        Parameters
+        ----------
+        n_estimators : int=30
+            Number of generated trees.
+        **kwargs :
+            Arbitrary keyword arguments for RandomForestRegressor.
+
+        Returns
+        -------
+        RandomForestRegressor
+            Trained random forest.
+        &#34;&#34;&#34;
+        rf = RandomForestRegressor(n_estimators=n_estimators, **kwargs)
+        train_x = self.data_dummies
+        train_y = self.data[self.consequent].values.ravel()
+        rf.fit(train_x, train_y)
+        return rf
+
+    @staticmethod
+    def _get_trees(rf: RandomForestRegressor) -&gt; dict:
+        &#34;&#34;&#34;Get trees from RandomForestRegressor.
+
+        Parameters
+        ----------
+        rf : RandomForestRegressor
+            Trained random forest.
+
+        Returns
+        -------
+        dict
+            Dictionary of trees.
+        &#34;&#34;&#34;
+        trees = {}
+        for tree_idx, est in enumerate(rf.estimators_):
+            trees[tree_idx] = {}
+            tree = est.tree_
+            assert tree.value.shape[1] == 1  # no support for multi-output
+            iterator = enumerate(zip(tree.children_left, tree.children_right, tree.feature, tree.threshold, tree.value))
+            for node_idx, data in iterator:
+                left, right, feature, th, value = data
+                # left: index of left child (if any)
+                # right: index of right child (if any)
+                # feature: index of the feature to check
+                # th: the threshold to compare against
+                # value: values associated with classes
+                trees[tree_idx][node_idx] = [feature, th, left, right]
+                # for classifier, value is 0 except the index of the class to return
+                # class_idx = np.argmax(value[0])
+                class_idx_val = value[0][0]
+                if class_idx_val &gt; 0.5:
+                    class_idx = 1
+                else:
+                    class_idx = 0
+                # Tree representation
+                if left == -1 and right == -1:
+                    trees[tree_idx][node_idx] = [feature, th, left, right, class_idx]
+                else:
+                    trees[tree_idx][node_idx] = [feature, th, left, right, None]
+        return trees
+
+    def _get_tree_rules(self, trees: dict) -&gt; list:
+        &#34;&#34;&#34;Get classification rules from tree representations.
+
+        Parameters
+        ----------
+        trees : dict
+            Dictionary of trees.
+
+        Returns
+        -------
+        list
+            List of classification rules.
+        &#34;&#34;&#34;
+        tree_rules = []
+        cols = self.data_dummies.columns
+        for tid, tree in trees.items():
+            open_rules = {0: [0, []]}
+            rules = []
+            max_rule = 0
+            while len(open_rules) &gt; 0:
+                loop_rules = open_rules.copy()
+                for key, value in loop_rules.items():
+                    feature, th, left, right, class_idx = tree[value[0]]
+                    if class_idx is None:
+                        # Right
+                        max_rule += 1
+                        open_rules[max_rule] = [None, []]
+                        open_rules[max_rule][1] = open_rules[key][1].copy()
+                        open_rules[max_rule][1].append([cols[feature], 1])
+                        open_rules[max_rule][0] = right
+                        # Left
+                        open_rules[key][1].append([cols[feature], 0])
+                        open_rules[key][0] = left
+                    else:
+                        open_rules[key][1].append([self.consequent, class_idx])
+                        rules.append(open_rules[key][1])
+                        open_rules.pop(key)
+            tree_rules.append(rules)
+        return tree_rules
+
+    def _get_no_dummies_rules(self, tree_rules: list) -&gt; list:
+        &#34;&#34;&#34;Decode dummies back to categories.
+
+        Parameters
+        ----------
+        tree_rules : list
+            Classification rules with dummies.
+
+        Returns
+        -------
+        list
+            Classification rules with categories.
+        &#34;&#34;&#34;
+        no_dummies_rules = []
+        for rule_pack in tree_rules:
+            for rule in rule_pack:
+                new_rule = {}
+                for part in rule[:-1]:
+                    for key, possible_values in self.possible_values_dict.items():
+                        if part[0].startswith(key + &#34;_&#34;):
+                            for possible_value in possible_values:
+                                if part[0].endswith(&#34;_&#34; + str(possible_value)):
+                                    if part[1] == 1:
+                                        if key not in new_rule.keys():
+                                            new_rule[key] = []
+                                        new_rule[key].append(possible_value)
+                                    else:
+                                        if key not in new_rule.keys():
+                                            new_rule[key] = possible_values.copy()
+                                        new_rule[key].remove(possible_value)
+                new_rule[rule[-1][0]] = [rule[-1][1]]
+                no_dummies_rules.append(new_rule)
+        return no_dummies_rules
+
+    @staticmethod
+    def _get_divided_rules(no_dummies_rules: list) -&gt; list:
+        &#34;&#34;&#34;If more categories from the same attribute is in the rule, more classification rules are derived.
+
+        Parameters
+        ----------
+        no_dummies_rule : list
+            Classification rules with multiple values per attribute.
+
+        Returns
+        -------
+        list
+            Classification rules with a single value per attribute.
+        &#34;&#34;&#34;
+        divided_rules = []
+        for new_rule in no_dummies_rules:  # new rule
+            part_rule = [{}]
+            for key, value in new_rule.items():  # values of an attribute
+                part_list = []
+                for val in value:  # values
+                    for part in part_rule:
+                        part_dict = part.copy()  # copy the current part of the rule
+                        if val != &#34;nan&#34;:
+                            part_dict[key] = val
+                            part_list.append(part_dict)
+                part_rule = part_list
+            divided_rules += part_rule
+        return divided_rules
+
+    def _get_rules_frame(self, divided_rules: list) -&gt; pd.DataFrame:
+        &#34;&#34;&#34;Saves classification rules to data frame.
+
+        Parameters
+        ----------
+        divided_rules : list
+            Classification rules with multiple values per attribute.
+
+        Returns
+        -------
+        pd.DataFrame
+            Classification rules data frame.
+        &#34;&#34;&#34;
+        cols = self.antecedents + [self.consequent]
+        rules_frame = pd.DataFrame(columns=cols)
+        for rule in divided_rules:
+            rules_frame = rules_frame.append(rule, ignore_index=True)
+        return rules_frame
+
+    def _get_supp_conf(self, divided_rules: list) -&gt; list:
+        &#34;&#34;&#34;Get support and confidence for all classification rules.
+
+        Parameters
+        ----------
+        divided_rules : list
+            List of classification rules.
+
+        Returns
+        -------
+        list
+            Support and confidence.
+        &#34;&#34;&#34;
+        supp_conf = []
+        all_len = len(self.data)
+        consequent = &#34;&#34;
+        for rule in divided_rules:
+            df_s = self.data.copy()
+            for key, value in rule.items():
+                if key != self.consequent:
+                    df_s = df_s.loc[(df_s[key] == value)]
+                else:
+                    consequent = value
+            antec = len(df_s)
+            df_s = df_s.loc[(df_s[self.consequent] == consequent)]
+            succ = len(df_s)
+            if all_len &gt; 0:
+                support = succ / all_len
+            else:
+                support = None
+            if antec &gt; 0:
+                confidence = succ / antec
+            else:
+                confidence = None
+            supp_conf.append([support, confidence])
+        return supp_conf
+
+    def _set_frame_supp_conf(self, rules_frame: pd.DataFrame, supp_conf: list):
+        &#34;&#34;&#34;Adds support and confidence to data frame.
+
+        Parameters
+        ----------
+        rules_frame : pd.DataFrame
+            Classification rules data frame.
+        supp_conf : list
+            Support and confidence.
+        &#34;&#34;&#34;
+        support = []
+        confidence = []
+        for values in supp_conf:
+            support.append(values[0])
+            confidence.append(values[1])
+        data_support = pd.DataFrame({&#39;support&#39;: support})
+        data_confidence = pd.DataFrame({&#39;confidence&#39;: confidence})
+        rules_frame = rules_frame.join(data_support)
+        rules_frame = rules_frame.join(data_confidence)
+        self.rules_frame = rules_frame
+
+    def fit(self, antecedents: List[str], consequent: str, supp: float, conf: float, n_estimators: int=30, **kwargs):
+        &#34;&#34;&#34;Train the model.
+
+        It also reduced classification rules by minimal support and minimal confidence.
+
+        Parameters
+        ----------
+        antecedents : List[str]
+            List of antecedent columns names.
+        consequent : str
+            Consequent column name.
+        supp : float
+            Minimal support. For example 10 means 10%.
+        conf : float
+            Minimal confidence .For example 80 means 80%.
+        n_estimators : int=30
+            Number of generated trees.
+        **kwargs :
+            Arbitrary keyword arguments for RandomForestRegressor.
+        &#34;&#34;&#34;
+        self._prepare_data(antecedents, consequent)
+        self._set_dummies()
+        rf = self._get_random_forest(n_estimators, **kwargs)
+        trees = self._get_trees(rf)
+        tree_rules = self._get_tree_rules(trees)
+        no_dummies_rules = self._get_no_dummies_rules(tree_rules)
+        divided_rules = self._get_divided_rules(no_dummies_rules)
+        rules_frame = self._get_rules_frame(divided_rules)
+        supp_conf = self._get_supp_conf(divided_rules)
+        self._set_frame_supp_conf(rules_frame, supp_conf)
+        self.rules_frame = self.rules_frame.drop_duplicates()
+        self.rules_frame = self.rules_frame[self.rules_frame.confidence &gt;= (conf / 100)]
+        self.rules_frame = self.rules_frame[self.rules_frame.support &gt;= (supp / 100)]
+        self.rules_frame = self.rules_frame.reset_index(drop=True)
+
+    def get_frame(self):
+        return self.rules_frame</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="randomForestRules.randomForestRules.RandomForestRules"><code class="flex name class">
+<span>class <span class="ident">RandomForestRules</span></span>
+</code></dt>
+<dd>
+<section class="desc"><p>Generate random forest and extract classification rules from trees.</p>
+<ul>
+<li>Underscore is not allowed in column names.</li>
+<li>Target must be numerical and binary.
+&hellip;</li>
+</ul>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>data</code></strong> :&ensp;<code>pd.DataFrame</code></dt>
+<dd>Raw input data.</dd>
+<dt><strong><code>data_dummies</code></strong> :&ensp;<code>pd.DataFrame</code></dt>
+<dd>Categorical variables converted into dummy/indicator variables.</dd>
+<dt><strong><code>antecedents</code></strong> :&ensp;<code>List</code>[<code>str</code>]</dt>
+<dd>List of antecedent columns names.</dd>
+<dt><strong><code>consequent</code></strong> :&ensp;<code>str</code></dt>
+<dd>Consequent column name.</dd>
+<dt><strong><code>possible_values_dict</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Dictionary of possible categories per each column,</dd>
+<dt><strong><code>rules_frame</code></strong> :&ensp;<code>pd.DataFrame</code></dt>
+<dd>Discovered classification rules</dd>
+</dl>
+<h2 id="methods">Methods</h2>
+<p>read_csv(self, file: str, <strong>kwargs)
+Import data from a CSV file.
+load_pandas(self, data_frame: pd.DataFrame)
+Import data from Pandas data frame.
+fit(self, antecedents: List[str], consequent: str, supp: float, conf: float, n_estimators: int=30, </strong>kwargs)
+Train the model.
+get_frame(self)
+Get classification rules data frame.</p>
+<p>Initialise.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class RandomForestRules:
+    &#34;&#34;&#34;
+    Generate random forest and extract classification rules from trees.
+
+    - Underscore is not allowed in column names.
+    - Target must be numerical and binary.
+    ...
+
+    Attributes
+    ----------
+    data : pd.DataFrame
+        Raw input data.
+    data_dummies : pd.DataFrame
+        Categorical variables converted into dummy/indicator variables.
+    antecedents : List[str]
+        List of antecedent columns names.
+    consequent : str
+        Consequent column name.
+    possible_values_dict : dict
+        Dictionary of possible categories per each column,
+    rules_frame : pd.DataFrame
+        Discovered classification rules
+
+    Methods
+    -------
+    read_csv(self, file: str, **kwargs)
+        Import data from a CSV file.
+    load_pandas(self, data_frame: pd.DataFrame)
+        Import data from Pandas data frame.
+    fit(self, antecedents: List[str], consequent: str, supp: float, conf: float, n_estimators: int=30, **kwargs)
+        Train the model.
+    get_frame(self)
+        Get classification rules data frame.
+    &#34;&#34;&#34;
+
+    def __init__(self):
+        &#34;&#34;&#34;
+        Initialise.
+        &#34;&#34;&#34;
+        self.data = pd.DataFrame()
+        self.data_dummies = pd.DataFrame()
+        self.antecedents = []
+        self.consequent = &#34;&#34;
+        self.possible_values_dict = {}
+        self.rules_frame = pd.DataFrame()
+
+    def read_csv(self, file: str, **kwargs):
+        &#34;&#34;&#34;Imports data from a CSV file.
+
+        It uses the same optional parameters as read_csv from Pandas.
+
+        Parameters
+        ----------
+        file : str
+            A path to a file.
+        **kwargs :
+            Arbitrary keyword arguments (the same as in Pandas).
+        &#34;&#34;&#34;
+        self.data = pd.read_csv(file, **kwargs)
+
+    def load_pandas(self, data_frame: pd.DataFrame):
+        &#34;&#34;&#34;Loads a data frame.
+
+        It must be the Pandas data frame.
+
+        Parameters
+        ----------
+        data_frame : pd.DataFrame
+            Pandas data frame.
+        &#34;&#34;&#34;
+        self.data = data_frame
+
+    def _prepare_data(self, antecedents: List[str], consequent: str):
+        &#34;&#34;&#34;Data preparation
+
+        Columns are reduced just to antecedent and consequent.
+        Missing values are replaced with string &#39;nan&#39;.
+        Possible values for each column are saved to possible_values_dict.
+
+        Parameters
+        ----------
+        antecedents : List[str]
+            List of antecedent columns names.
+        consequent : str
+            Name of consequent column.
+        &#34;&#34;&#34;
+        reduced = antecedents + [consequent]
+        self.data = self.data[reduced]
+        self.data = self.data.fillna(&#34;nan&#34;)
+        self.antecedents = antecedents
+        self.consequent = consequent
+        for col in self.antecedents:
+            self.possible_values_dict[col] = self.data[col].unique().tolist()
+
+    def _set_dummies(self):
+        &#34;&#34;&#34;Get dummies and save them to new data frame.
+        &#34;&#34;&#34;
+        data_reduced = self.data[self.antecedents]
+        self.data_dummies = pd.get_dummies(data_reduced, columns=self.antecedents)
+
+    def _get_random_forest(self, n_estimators: int=30, **kwargs):
+        &#34;&#34;&#34;Get random forest by Scikit-Learn RandomForestRegressor.
+
+        Parameters
+        ----------
+        n_estimators : int=30
+            Number of generated trees.
+        **kwargs :
+            Arbitrary keyword arguments for RandomForestRegressor.
+
+        Returns
+        -------
+        RandomForestRegressor
+            Trained random forest.
+        &#34;&#34;&#34;
+        rf = RandomForestRegressor(n_estimators=n_estimators, **kwargs)
+        train_x = self.data_dummies
+        train_y = self.data[self.consequent].values.ravel()
+        rf.fit(train_x, train_y)
+        return rf
+
+    @staticmethod
+    def _get_trees(rf: RandomForestRegressor) -&gt; dict:
+        &#34;&#34;&#34;Get trees from RandomForestRegressor.
+
+        Parameters
+        ----------
+        rf : RandomForestRegressor
+            Trained random forest.
+
+        Returns
+        -------
+        dict
+            Dictionary of trees.
+        &#34;&#34;&#34;
+        trees = {}
+        for tree_idx, est in enumerate(rf.estimators_):
+            trees[tree_idx] = {}
+            tree = est.tree_
+            assert tree.value.shape[1] == 1  # no support for multi-output
+            iterator = enumerate(zip(tree.children_left, tree.children_right, tree.feature, tree.threshold, tree.value))
+            for node_idx, data in iterator:
+                left, right, feature, th, value = data
+                # left: index of left child (if any)
+                # right: index of right child (if any)
+                # feature: index of the feature to check
+                # th: the threshold to compare against
+                # value: values associated with classes
+                trees[tree_idx][node_idx] = [feature, th, left, right]
+                # for classifier, value is 0 except the index of the class to return
+                # class_idx = np.argmax(value[0])
+                class_idx_val = value[0][0]
+                if class_idx_val &gt; 0.5:
+                    class_idx = 1
+                else:
+                    class_idx = 0
+                # Tree representation
+                if left == -1 and right == -1:
+                    trees[tree_idx][node_idx] = [feature, th, left, right, class_idx]
+                else:
+                    trees[tree_idx][node_idx] = [feature, th, left, right, None]
+        return trees
+
+    def _get_tree_rules(self, trees: dict) -&gt; list:
+        &#34;&#34;&#34;Get classification rules from tree representations.
+
+        Parameters
+        ----------
+        trees : dict
+            Dictionary of trees.
+
+        Returns
+        -------
+        list
+            List of classification rules.
+        &#34;&#34;&#34;
+        tree_rules = []
+        cols = self.data_dummies.columns
+        for tid, tree in trees.items():
+            open_rules = {0: [0, []]}
+            rules = []
+            max_rule = 0
+            while len(open_rules) &gt; 0:
+                loop_rules = open_rules.copy()
+                for key, value in loop_rules.items():
+                    feature, th, left, right, class_idx = tree[value[0]]
+                    if class_idx is None:
+                        # Right
+                        max_rule += 1
+                        open_rules[max_rule] = [None, []]
+                        open_rules[max_rule][1] = open_rules[key][1].copy()
+                        open_rules[max_rule][1].append([cols[feature], 1])
+                        open_rules[max_rule][0] = right
+                        # Left
+                        open_rules[key][1].append([cols[feature], 0])
+                        open_rules[key][0] = left
+                    else:
+                        open_rules[key][1].append([self.consequent, class_idx])
+                        rules.append(open_rules[key][1])
+                        open_rules.pop(key)
+            tree_rules.append(rules)
+        return tree_rules
+
+    def _get_no_dummies_rules(self, tree_rules: list) -&gt; list:
+        &#34;&#34;&#34;Decode dummies back to categories.
+
+        Parameters
+        ----------
+        tree_rules : list
+            Classification rules with dummies.
+
+        Returns
+        -------
+        list
+            Classification rules with categories.
+        &#34;&#34;&#34;
+        no_dummies_rules = []
+        for rule_pack in tree_rules:
+            for rule in rule_pack:
+                new_rule = {}
+                for part in rule[:-1]:
+                    for key, possible_values in self.possible_values_dict.items():
+                        if part[0].startswith(key + &#34;_&#34;):
+                            for possible_value in possible_values:
+                                if part[0].endswith(&#34;_&#34; + str(possible_value)):
+                                    if part[1] == 1:
+                                        if key not in new_rule.keys():
+                                            new_rule[key] = []
+                                        new_rule[key].append(possible_value)
+                                    else:
+                                        if key not in new_rule.keys():
+                                            new_rule[key] = possible_values.copy()
+                                        new_rule[key].remove(possible_value)
+                new_rule[rule[-1][0]] = [rule[-1][1]]
+                no_dummies_rules.append(new_rule)
+        return no_dummies_rules
+
+    @staticmethod
+    def _get_divided_rules(no_dummies_rules: list) -&gt; list:
+        &#34;&#34;&#34;If more categories from the same attribute is in the rule, more classification rules are derived.
+
+        Parameters
+        ----------
+        no_dummies_rule : list
+            Classification rules with multiple values per attribute.
+
+        Returns
+        -------
+        list
+            Classification rules with a single value per attribute.
+        &#34;&#34;&#34;
+        divided_rules = []
+        for new_rule in no_dummies_rules:  # new rule
+            part_rule = [{}]
+            for key, value in new_rule.items():  # values of an attribute
+                part_list = []
+                for val in value:  # values
+                    for part in part_rule:
+                        part_dict = part.copy()  # copy the current part of the rule
+                        if val != &#34;nan&#34;:
+                            part_dict[key] = val
+                            part_list.append(part_dict)
+                part_rule = part_list
+            divided_rules += part_rule
+        return divided_rules
+
+    def _get_rules_frame(self, divided_rules: list) -&gt; pd.DataFrame:
+        &#34;&#34;&#34;Saves classification rules to data frame.
+
+        Parameters
+        ----------
+        divided_rules : list
+            Classification rules with multiple values per attribute.
+
+        Returns
+        -------
+        pd.DataFrame
+            Classification rules data frame.
+        &#34;&#34;&#34;
+        cols = self.antecedents + [self.consequent]
+        rules_frame = pd.DataFrame(columns=cols)
+        for rule in divided_rules:
+            rules_frame = rules_frame.append(rule, ignore_index=True)
+        return rules_frame
+
+    def _get_supp_conf(self, divided_rules: list) -&gt; list:
+        &#34;&#34;&#34;Get support and confidence for all classification rules.
+
+        Parameters
+        ----------
+        divided_rules : list
+            List of classification rules.
+
+        Returns
+        -------
+        list
+            Support and confidence.
+        &#34;&#34;&#34;
+        supp_conf = []
+        all_len = len(self.data)
+        consequent = &#34;&#34;
+        for rule in divided_rules:
+            df_s = self.data.copy()
+            for key, value in rule.items():
+                if key != self.consequent:
+                    df_s = df_s.loc[(df_s[key] == value)]
+                else:
+                    consequent = value
+            antec = len(df_s)
+            df_s = df_s.loc[(df_s[self.consequent] == consequent)]
+            succ = len(df_s)
+            if all_len &gt; 0:
+                support = succ / all_len
+            else:
+                support = None
+            if antec &gt; 0:
+                confidence = succ / antec
+            else:
+                confidence = None
+            supp_conf.append([support, confidence])
+        return supp_conf
+
+    def _set_frame_supp_conf(self, rules_frame: pd.DataFrame, supp_conf: list):
+        &#34;&#34;&#34;Adds support and confidence to data frame.
+
+        Parameters
+        ----------
+        rules_frame : pd.DataFrame
+            Classification rules data frame.
+        supp_conf : list
+            Support and confidence.
+        &#34;&#34;&#34;
+        support = []
+        confidence = []
+        for values in supp_conf:
+            support.append(values[0])
+            confidence.append(values[1])
+        data_support = pd.DataFrame({&#39;support&#39;: support})
+        data_confidence = pd.DataFrame({&#39;confidence&#39;: confidence})
+        rules_frame = rules_frame.join(data_support)
+        rules_frame = rules_frame.join(data_confidence)
+        self.rules_frame = rules_frame
+
+    def fit(self, antecedents: List[str], consequent: str, supp: float, conf: float, n_estimators: int=30, **kwargs):
+        &#34;&#34;&#34;Train the model.
+
+        It also reduced classification rules by minimal support and minimal confidence.
+
+        Parameters
+        ----------
+        antecedents : List[str]
+            List of antecedent columns names.
+        consequent : str
+            Consequent column name.
+        supp : float
+            Minimal support. For example 10 means 10%.
+        conf : float
+            Minimal confidence .For example 80 means 80%.
+        n_estimators : int=30
+            Number of generated trees.
+        **kwargs :
+            Arbitrary keyword arguments for RandomForestRegressor.
+        &#34;&#34;&#34;
+        self._prepare_data(antecedents, consequent)
+        self._set_dummies()
+        rf = self._get_random_forest(n_estimators, **kwargs)
+        trees = self._get_trees(rf)
+        tree_rules = self._get_tree_rules(trees)
+        no_dummies_rules = self._get_no_dummies_rules(tree_rules)
+        divided_rules = self._get_divided_rules(no_dummies_rules)
+        rules_frame = self._get_rules_frame(divided_rules)
+        supp_conf = self._get_supp_conf(divided_rules)
+        self._set_frame_supp_conf(rules_frame, supp_conf)
+        self.rules_frame = self.rules_frame.drop_duplicates()
+        self.rules_frame = self.rules_frame[self.rules_frame.confidence &gt;= (conf / 100)]
+        self.rules_frame = self.rules_frame[self.rules_frame.support &gt;= (supp / 100)]
+        self.rules_frame = self.rules_frame.reset_index(drop=True)
+
+    def get_frame(self):
+        return self.rules_frame</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="randomForestRules.randomForestRules.RandomForestRules.fit"><code class="name flex">
+<span>def <span class="ident">fit</span></span>(<span>self, antecedents, consequent, supp, conf, n_estimators=30, **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Train the model.</p>
+<p>It also reduced classification rules by minimal support and minimal confidence.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>antecedents</code></strong> :&ensp;<code>List</code>[<code>str</code>]</dt>
+<dd>List of antecedent columns names.</dd>
+<dt><strong><code>consequent</code></strong> :&ensp;<code>str</code></dt>
+<dd>Consequent column name.</dd>
+<dt><strong><code>supp</code></strong> :&ensp;<code>float</code></dt>
+<dd>Minimal support. For example 10 means 10%.</dd>
+<dt><strong><code>conf</code></strong> :&ensp;<code>float</code></dt>
+<dd>Minimal confidence .For example 80 means 80%.</dd>
+<dt><strong><code>n_estimators</code></strong> :&ensp;<code>int</code>=<code>30</code></dt>
+<dd>Number of generated trees.</dd>
+</dl>
+<p>**kwargs :
+Arbitrary keyword arguments for RandomForestRegressor.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def fit(self, antecedents: List[str], consequent: str, supp: float, conf: float, n_estimators: int=30, **kwargs):
+    &#34;&#34;&#34;Train the model.
+
+    It also reduced classification rules by minimal support and minimal confidence.
+
+    Parameters
+    ----------
+    antecedents : List[str]
+        List of antecedent columns names.
+    consequent : str
+        Consequent column name.
+    supp : float
+        Minimal support. For example 10 means 10%.
+    conf : float
+        Minimal confidence .For example 80 means 80%.
+    n_estimators : int=30
+        Number of generated trees.
+    **kwargs :
+        Arbitrary keyword arguments for RandomForestRegressor.
+    &#34;&#34;&#34;
+    self._prepare_data(antecedents, consequent)
+    self._set_dummies()
+    rf = self._get_random_forest(n_estimators, **kwargs)
+    trees = self._get_trees(rf)
+    tree_rules = self._get_tree_rules(trees)
+    no_dummies_rules = self._get_no_dummies_rules(tree_rules)
+    divided_rules = self._get_divided_rules(no_dummies_rules)
+    rules_frame = self._get_rules_frame(divided_rules)
+    supp_conf = self._get_supp_conf(divided_rules)
+    self._set_frame_supp_conf(rules_frame, supp_conf)
+    self.rules_frame = self.rules_frame.drop_duplicates()
+    self.rules_frame = self.rules_frame[self.rules_frame.confidence &gt;= (conf / 100)]
+    self.rules_frame = self.rules_frame[self.rules_frame.support &gt;= (supp / 100)]
+    self.rules_frame = self.rules_frame.reset_index(drop=True)</code></pre>
+</details>
+</dd>
+<dt id="randomForestRules.randomForestRules.RandomForestRules.get_frame"><code class="name flex">
+<span>def <span class="ident">get_frame</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_frame(self):
+    return self.rules_frame</code></pre>
+</details>
+</dd>
+<dt id="randomForestRules.randomForestRules.RandomForestRules.load_pandas"><code class="name flex">
+<span>def <span class="ident">load_pandas</span></span>(<span>self, data_frame)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Loads a data frame.</p>
+<p>It must be the Pandas data frame.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>data_frame</code></strong> :&ensp;<code>pd.DataFrame</code></dt>
+<dd>Pandas data frame.</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def load_pandas(self, data_frame: pd.DataFrame):
+    &#34;&#34;&#34;Loads a data frame.
+
+    It must be the Pandas data frame.
+
+    Parameters
+    ----------
+    data_frame : pd.DataFrame
+        Pandas data frame.
+    &#34;&#34;&#34;
+    self.data = data_frame</code></pre>
+</details>
+</dd>
+<dt id="randomForestRules.randomForestRules.RandomForestRules.read_csv"><code class="name flex">
+<span>def <span class="ident">read_csv</span></span>(<span>self, file, **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Imports data from a CSV file.</p>
+<p>It uses the same optional parameters as read_csv from Pandas.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>file</code></strong> :&ensp;<code>str</code></dt>
+<dd>A path to a file.</dd>
+</dl>
+<p>**kwargs :
+Arbitrary keyword arguments (the same as in Pandas).</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def read_csv(self, file: str, **kwargs):
+    &#34;&#34;&#34;Imports data from a CSV file.
+
+    It uses the same optional parameters as read_csv from Pandas.
+
+    Parameters
+    ----------
+    file : str
+        A path to a file.
+    **kwargs :
+        Arbitrary keyword arguments (the same as in Pandas).
+    &#34;&#34;&#34;
+    self.data = pd.read_csv(file, **kwargs)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="randomForestRules" href="index.html">randomForestRules</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="randomForestRules.randomForestRules.RandomForestRules" href="#randomForestRules.randomForestRules.RandomForestRules">RandomForestRules</a></code></h4>
+<ul class="">
+<li><code><a title="randomForestRules.randomForestRules.RandomForestRules.fit" href="#randomForestRules.randomForestRules.RandomForestRules.fit">fit</a></code></li>
+<li><code><a title="randomForestRules.randomForestRules.RandomForestRules.get_frame" href="#randomForestRules.randomForestRules.RandomForestRules.get_frame">get_frame</a></code></li>
+<li><code><a title="randomForestRules.randomForestRules.RandomForestRules.load_pandas" href="#randomForestRules.randomForestRules.RandomForestRules.load_pandas">load_pandas</a></code></li>
+<li><code><a title="randomForestRules.randomForestRules.RandomForestRules.read_csv" href="#randomForestRules.randomForestRules.RandomForestRules.read_csv">read_csv</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.5</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>
