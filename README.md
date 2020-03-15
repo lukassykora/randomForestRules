@@ -15,7 +15,7 @@ https://github.com/lukassykora/randomForestRules
 
 ## Example
 ```python
-from randomForestRules import RandomForest
+from randomForestRules import RandomForestRules
 import pandas as pd
 
 df = pd.read_csv("data/audiology.csv")
@@ -27,7 +27,7 @@ for col in df.columns:
     if col != 'binaryClass' and col != 'target':
         cols.append(col)
 # Initialize
-randomForest = RandomForest()
+randomForest = RandomForestRules()
 # Load data
 randomForest.load_pandas(df)
 # Fit
