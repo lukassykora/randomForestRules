@@ -13,6 +13,14 @@ Get the representation of all rules found by sklearn RandomForestClassifier. It 
 
 https://github.com/lukassykora/randomForestRules
 
+## Installation
+
+pip install randomForestRules-lukassykora
+
+## Jupyter Notebook
+
+- [Audiology](https://github.com/lukassykora/randomForestRules/blob/master/notebooks/AudiologyRandomForest.ipynb) 
+
 ## Example
 ```python
 from randomForestRules import RandomForestRules
