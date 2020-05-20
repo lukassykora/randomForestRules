@@ -28,18 +28,17 @@ import pandas as pd
 
 df = pd.read_csv("data/audiology.csv")
 df.columns = df.columns.str.replace("_", "-") # underscore not allowed
-df['target'] = df['binaryClass'].apply(lambda x: 1 if x == "P" else 0) # target musts be numerical
 # All feature columns
 cols=[]
 for col in df.columns:
-    if col != 'binaryClass' and col != 'target':
+    if col != 'binaryClass':
         cols.append(col)
 # Initialize
 randomForest = RandomForestRules()
 # Load data
 randomForest.load_pandas(df)
 # Fit
-randomForest.fit(antecedents = cols, consequent = 'target', supp=0.005, conf=50)
+randomForest.fit(antecedent = cols, consequent = 'binaryClass', supp=0.005, conf=50)
 # Get result
 frame = randomForest.get_frame()
 ```

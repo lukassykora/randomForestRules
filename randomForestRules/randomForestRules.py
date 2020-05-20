@@ -1,5 +1,5 @@
 import pandas as pd
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import RandomForestClassifier
 from typing import List
 
 
@@ -15,9 +15,13 @@ class RandomForestRules:
     ----------
     data : pd.DataFrame
         Raw input data.
+    target_values : list
+        Possible target values
+    count_rows: int
+        Number of rows in data
     data_dummies : pd.DataFrame
         Categorical variables converted into dummy/indicator variables.
-    antecedents : List[str]
+    antecedent : List[str]
         List of antecedent columns names.
     consequent : str
         Consequent column name.
@@ -32,7 +36,7 @@ class RandomForestRules:
         Import data from a CSV file.
     load_pandas(self, data_frame: pd.DataFrame)
         Import data from Pandas data frame.
-    fit(self, antecedents: List[str], consequent: str, supp: float, conf: float, n_estimators: int=30, **kwargs)
+    fit(self, antecedent: List[str], consequent: str, supp: float, conf: float, n_estimators: int=30, **kwargs)
         Train the model.
     get_frame(self)
         Get classification rules data frame.
@@ -43,8 +47,10 @@ class RandomForestRules:
         Initialise.
         """
         self.data = pd.DataFrame()
+        self.target_values = []
+        self.count_rows = 0
         self.data_dummies = pd.DataFrame()
-        self.antecedents = []
+        self.antecedent = []
         self.consequent = ""
         self.possible_values_dict = {}
         self.rules_frame = pd.DataFrame()
@@ -75,7 +81,7 @@ class RandomForestRules:
         """
         self.data = data_frame
 
-    def _prepare_data(self, antecedents: List[str], consequent: str):
+    def _prepare_data(self, antecedent: List[str], consequent: str):
         """Data preparation
 
         Columns are reduced just to antecedent and consequent.
@@ -84,27 +90,29 @@ class RandomForestRules:
 
         Parameters
         ----------
-        antecedents : List[str]
+        antecedent : List[str]
             List of antecedent columns names.
         consequent : str
             Name of consequent column.
         """
-        reduced = antecedents + [consequent]
+        reduced = antecedent + [consequent]
         self.data = self.data[reduced]
+        self.target_values = sorted(self.data[consequent].unique())
+        self.count_rows = self.data.shape[0]
         self.data = self.data.fillna("nan")
-        self.antecedents = antecedents
+        self.antecedent = antecedent
         self.consequent = consequent
-        for col in self.antecedents:
+        for col in self.antecedent:
             self.possible_values_dict[col] = self.data[col].unique().tolist()
 
     def _set_dummies(self):
         """Get dummies and save them to new data frame.
         """
-        data_reduced = self.data[self.antecedents]
-        self.data_dummies = pd.get_dummies(data_reduced, columns=self.antecedents)
+        data_reduced = self.data[self.antecedent]
+        self.data_dummies = pd.get_dummies(data_reduced, columns=self.antecedent)
 
     def _get_random_forest(self, n_estimators: int=30, **kwargs):
-        """Get random forest by Scikit-Learn RandomForestRegressor.
+        """Get random forest by Scikit-Learn RandomForestClassifier.
 
         Parameters
         ----------
@@ -118,19 +126,18 @@ class RandomForestRules:
         RandomForestRegressor
             Trained random forest.
         """
-        rf = RandomForestRegressor(n_estimators=n_estimators, **kwargs)
+        rf = RandomForestClassifier(n_estimators=n_estimators, **kwargs)
         train_x = self.data_dummies
         train_y = self.data[self.consequent].values.ravel()
         rf.fit(train_x, train_y)
         return rf
 
-    @staticmethod
-    def _get_trees(rf: RandomForestRegressor) -> dict:
-        """Get trees from RandomForestRegressor.
+    def _get_trees(self, rf: RandomForestClassifier) -> dict:
+        """Get trees from RandomForestClassifier.
 
         Parameters
         ----------
-        rf : RandomForestRegressor
+        rf : RandomForestClassifier
             Trained random forest.
 
         Returns
@@ -142,7 +149,6 @@ class RandomForestRules:
         for tree_idx, est in enumerate(rf.estimators_):
             trees[tree_idx] = {}
             tree = est.tree_
-            assert tree.value.shape[1] == 1  # no support for multi-output
             iterator = enumerate(zip(tree.children_left, tree.children_right, tree.feature, tree.threshold, tree.value))
             for node_idx, data in iterator:
                 left, right, feature, th, value = data
@@ -154,14 +160,12 @@ class RandomForestRules:
                 trees[tree_idx][node_idx] = [feature, th, left, right]
                 # for classifier, value is 0 except the index of the class to return
                 # class_idx = np.argmax(value[0])
-                class_idx_val = value[0][0]
-                if class_idx_val > 0.5:
-                    class_idx = 1
-                else:
-                    class_idx = 0
                 # Tree representation
                 if left == -1 and right == -1:
-                    trees[tree_idx][node_idx] = [feature, th, left, right, class_idx]
+                    values_leaf = value[0].tolist()
+                    target_index = values_leaf.index(max(values_leaf))
+                    target = self.target_values[target_index]
+                    trees[tree_idx][node_idx] = [feature, th, left, right, target]
                 else:
                     trees[tree_idx][node_idx] = [feature, th, left, right, None]
         return trees
@@ -188,8 +192,8 @@ class RandomForestRules:
             while len(open_rules) > 0:
                 loop_rules = open_rules.copy()
                 for key, value in loop_rules.items():
-                    feature, th, left, right, class_idx = tree[value[0]]
-                    if class_idx is None:
+                    feature, th, left, right, target = tree[value[0]]
+                    if target is None:
                         # Right
                         max_rule += 1
                         open_rules[max_rule] = [None, []]
@@ -200,7 +204,7 @@ class RandomForestRules:
                         open_rules[key][1].append([cols[feature], 0])
                         open_rules[key][0] = left
                     else:
-                        open_rules[key][1].append([self.consequent, class_idx])
+                        open_rules[key][1].append([self.consequent, target])
                         rules.append(open_rules[key][1])
                         open_rules.pop(key)
             tree_rules.append(rules)
@@ -235,7 +239,8 @@ class RandomForestRules:
                                     else:
                                         if key not in new_rule.keys():
                                             new_rule[key] = possible_values.copy()
-                                        new_rule[key].remove(possible_value)
+                                        if possible_value in new_rule[key]: #---------------------
+                                            new_rule[key].remove(possible_value)
                 new_rule[rule[-1][0]] = [rule[-1][1]]
                 no_dummies_rules.append(new_rule)
         return no_dummies_rules
@@ -282,7 +287,7 @@ class RandomForestRules:
         pd.DataFrame
             Classification rules data frame.
         """
-        cols = self.antecedents + [self.consequent]
+        cols = self.antecedent + [self.consequent]
         rules_frame = pd.DataFrame(columns=cols)
         for rule in divided_rules:
             rules_frame = rules_frame.append(rule, ignore_index=True)
@@ -346,14 +351,14 @@ class RandomForestRules:
         rules_frame = rules_frame.join(data_confidence)
         self.rules_frame = rules_frame
 
-    def fit(self, antecedents: List[str], consequent: str, supp: float, conf: float, n_estimators: int=30, **kwargs):
+    def fit(self, antecedent: List[str], consequent: str, supp: float, conf: float, n_estimators: int=30, **kwargs):
         """Train the model.
 
         It also reduced classification rules by minimal support and minimal confidence.
 
         Parameters
         ----------
-        antecedents : List[str]
+        antecedent : List[str]
             List of antecedent columns names.
         consequent : str
             Consequent column name.
@@ -366,7 +371,7 @@ class RandomForestRules:
         **kwargs :
             Arbitrary keyword arguments for RandomForestRegressor.
         """
-        self._prepare_data(antecedents, consequent)
+        self._prepare_data(antecedent, consequent)
         self._set_dummies()
         rf = self._get_random_forest(n_estimators, **kwargs)
         trees = self._get_trees(rf)

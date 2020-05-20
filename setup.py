@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="randomForestRules-lukassykora",
-    version="1.1.1",
+    version="1.1.2",
     author="Lukas Sykora",
     author_email="lukassykora@seznam.cz",
     description="Random forest classification rules mining package",
